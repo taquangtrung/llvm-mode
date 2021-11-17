@@ -4,7 +4,7 @@
 ;;
 ;; Author: Noah Peart <noah.v.peart@gmail.com>
 ;; URL: https://github.com/nverno/llvm-mode
-;; Package-Requires: 
+;; Package-Requires:
 ;; Created: 16 February 2020
 
 ;; This file is not part of GNU Emacs.
@@ -47,7 +47,7 @@
 ;; https://github.com/llvm-mirror/llvm/docs/LangRef.rst
 ;;
 ;;; Installation:
-;; 
+;;
 ;;  Add to `load-path' and generate autoloads or
 ;; ```lisp
 ;; (require 'llvm-mode)
@@ -191,7 +191,7 @@
    (smie-precs->prec2
     '((assoc ":")))))
 
-;; return ":" on label line 
+;; return ":" on label line
 (defun llvm-mode--smie-forward-token ()
   (let ((tok (smie-default-forward-token)))
     (save-match-data
@@ -213,7 +213,7 @@
     (`(:list-intro . ,(or ":" "")) t)))
 
 ;; -------------------------------------------------------------------
-;;; Completion 
+;;; Completion
 
 (defconst llvm-mode-global-regexp
   (concat "^\\s-*" (regexp-opt '("declare" "define")) "\\s-*"
@@ -230,7 +230,7 @@
               res)))
     res))
 
-;; basic completion at point 
+;; basic completion at point
 (defun llvm-mode-completion-at-point ()
   (when-let ((bnds (bounds-of-thing-at-point 'symbol)))
     (let ((table
@@ -259,9 +259,10 @@ With prefix, query for INSTR."
 ;; XXX: remove duplicate labels??
 (defvar llvm-mode-imenu-regexp
   `((nil
-     ,(concat (regexp-opt '("declare" "define")) "[^@\n]+@\\([[:alnum:]_]+\\)")
+     ,(concat (regexp-opt '("declare" "define")) "[^@\n]+@\\([[:alnum:]_\":]+\\)")
      1)
-    ("Label" "^\\s-*\\([[:alpha:]][[:alnum:]_]*\\):" 1)))
+    ;; ("Label" "^\\s-*\\([[:alpha:]][[:alnum:]_]*\\):" 1)
+    ))
 
 (defvar llvm-mode-map
   (let ((km (make-sparse-keymap)))
